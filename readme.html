@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>TreeWork | treework.cn</title>
+<style>
+html {
+  background:#eee;
+  margin:0 20px;
+}
+body {
+  background:#fff;
+  color:#555;
+  font-family:Arial,Microsoft Yahei;
+  margin:140px auto 25px;
+  padding:20px;
+  max-width:940px;
+  -webkit-font-smoothing: subpixel-antialiased;
+  -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.13);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.13);
+}
+a {
+  color:#56ccc8;
+  text-decoration:none;
+}
+a:hover {
+  color:#98DFDC;
+  text-decoration:underline;
+}
+h1 {
+  border-bottom:1px solid #dedede;
+  clear:both;
+  color:#666;
+  font-size: 24px;
+  margin: 30px 0;
+  padding: 0;
+  padding-bottom: 7px;
+  font-weight: normal;
+}
+p, li {
+  padding-bottom: 2px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+ul, ol {
+  padding: 5px 5px 5px 22px;
+}
+a img {
+  border:0
+}
+pre {
+  margin-bottom: 22px;
+  font-size: 12px;
+  font-weight: inherit;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap !important;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+  background: #f3f3f7;
+  border: 1px solid #dedee3;
+  padding: 11px;
+  line-height: 1.3em;
+  overflow: auto;
+}
+#logo {
+  margin: -90px auto 25px;
+  border-bottom: none;
+  text-align: center;
+  font-weight: bold;
+  color: #7a7a7a;
+  font-size: 50px;
+}
+#logo a {
+  color: #7a7a7a;
+  text-decoration:none;
+}
+.align-cenetr {
+  text-align:center;
+}
+</style>
+</head>
+<body>
+<h1 id="logo">
+ <a href="http://www.treework.cn">treework.cn</a>
+</h1>
+<h2 class="align-cenetr">版本2.1</h2>
+<p class="align-cenetr">阿树工作室出品-wordpress主题后台框架</p>
+<h1>简介</h1>
+<p>本框架由阿树工作室发布，众网友可自由使用，使用本框架需要一定的代码基础，所以使用之前请先确保已经具有适量的php语法知识以及对wordpress有一定的了解。<br />
+本框架的用途是：
+<ol>
+  <li>给你的wordpress文章发布页面添加自定义面板和自定义字段</li>
+  <li>给你的wordperss网站后台添加设置页面</li>
+  <li>给你的wordpress分类页面以及分类编辑页面添加自定义字段</li>
+</ol>
+本框架可以添加的表单元素类型有，以下所有元素都支持上面三项。
+<ol>
+  <li>普通提示文字</li>
+  <li>文本输入框 input[text]</li>
+  <li>文本输入域 input[textarea]</li>
+  <li>图片上传 media upload 使用wordpress 3.5以后的新媒体中心</li>
+  <li>单选框 radio</li>
+  <li>复选框 checkbox</li>
+  <li>下拉框 select (可选择 页面、分类、侧边栏、菜单、自定义的下拉项)</li>
+  <li>数组输入 number_array (可保存为一个数字数组)</li>
+  <li>文本编辑器 tinymce (调用wordpress默认的tinymce编辑器)</li>
+</ol>
+</p>
+<h1>更新记录</h1>
+<p>1.1版本 2014.5.28</p>
+<ul>
+<li>修复三个类文件中，关于numbers_array项，空值时报错问题。在三个类文件中numbers_array项中，对值做了空值的判断</li>
+</ul>
+<p>1.2版本 2014.7.17</p>
+<ul>
+<li>修改metaboxclass.php,对wp_enqueue_media()函数的加载做了判断，避免在自定义文章类型时，不加载media相关js和css，以及重复加载造成特色图像等无法使用的问题。</li>
+</ul>
+<p>1.3版本 2014.10.23</p>
+<ul>
+<li>更改了配置文件的示例代码，1.2版本generaloption和childoption两个设置页面的配置变量名重复，导致很多直接使用示例代码测试的用户测试失败。</li>
+</ul>
+<p>1.4版本 2015.7.19</p>
+<ul>
+<li>去掉了压缩包内的jquery文件</li>
+<li>给字段的textarea加入了size控制</li>
+<li>文件上传支持图片以外的文件，且加入了预览图标</li>
+</ul>
+<p>2.0版本 2015.7.19</p>
+<p>由于较之前版本差别较大，所以版本号从1.4调整到2.0</p>
+<ul>
+<li>设置页面允许添加多个顶级页面</li>
+<li>加入了导入导出功能</li>
+</ul>
+<p>2.1版本 2015.7.29</p>
+<ul>
+<li>调整了js，修复文件上传项不上传文件而又点击了输入框时出现文件图标的问题。</li>
+</ul>
+<h1>使用方法</h1>
+<p><a href="http://www.ashuwp.com/framework/down">查阅Ashuwp_framework帮助文档</a></p>
+
+<h1>最后</h1>
+<p>
+<ul>
+  <li>对本框架有任何建议、想法、评论或者发现了bug。请联系我们</li>
+  <li>如果你对本框架有更好的改进意见，请一定联系我们，帮助我们开发更完善更严谨的框架代码。谢谢。</li>
+  <li>邮箱：admin@ashuwp.com</li>
+</ul>
+</p>
+</body>
+</html>

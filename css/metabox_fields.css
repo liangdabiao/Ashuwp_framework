@@ -1,0 +1,46 @@
+/*!
+*Author: Ashuwp
+*Author url: http://www.ashuwp.com
+*Version: 2.1
+*/
+
+.ashu_metabox {
+  border-bottom:1px solid #ccc;
+  margin-bottom:10px;
+  padding:10px 0;
+}
+.ashu_metabox_upload {
+  position:relative;
+}
+.ashu_file_view{
+  border:1px solid #DFDFDF;
+  position:absolute;
+  height:100px;
+  width:100px;
+  top:5px;
+  right:5px;
+  overflow: hidden;
+  text-align: center;
+  z-index: 1;
+}
+input[type=radio].ashu_radio,
+input[type=checkbox].ashu_checkbox {
+  width:16px;
+  height:16px;
+}
+.meta_box_side .ashu_file_view{
+height:32px;
+width:32px;
+top:5px;
+right:5px;
+}
+
+.ashu_file_view img{
+  max-width:100%;
+  height:auto;
+  max-height:100%;
+}
+
+.meta_box_side .ashu_file_view img{
+  height:32px;
+}
