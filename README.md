@@ -19,12 +19,21 @@ Ashuwp_framework是由阿树工作室发布的一个wordpress后台框架。
 以下所有表单项同时支持文章自定义字段、分类自定义字段、设置页面
 
 * 普通提示文字
+<<<<<<< HEAD
 * 文本框 text
 * 文本域 textarea
 * 文件上传 使用media upload
 * 单选框 radio
 * 复选框 checkbox
 * 下拉框 select
+=======
+* 文本框 <input type="text">
+* 文本域 <textarea>
+* 文件上传 使用media upload
+* 单选框 <input type="radio">
+* 复选框 <input type="checkbox">
+* 下拉框 <select>
+>>>>>>> 5c166097680f074613a74e2415d03be618a2becd
 * 文本编辑器 tinyMCE
 
 ##帮助支持
