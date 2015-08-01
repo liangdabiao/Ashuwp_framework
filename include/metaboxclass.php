@@ -19,8 +19,8 @@ class ashu_meta_box {
   }
   
   function init_boxes() {
-    $this->add_script_and_styles();
     $this->create_meta_box();
+    add_action( 'admin_print_scripts', array(&$this, 'add_script_and_styles') );
   }
   
   function add_script_and_styles() {
