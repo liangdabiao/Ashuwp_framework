@@ -2,7 +2,7 @@
 /**
 *Author: Ashuwp
 *Author url: http://www.ashuwp.com
-*Version: 2.1
+*Version: 2.2
 **/
 
 class ashu_option_import_class {

@@ -1,7 +1,7 @@
 /**
 *Author: Ashuwp
 *Author url: http://www.ashuwp.com
-*Version: 2.1
+*Version: 2.2
 **/
 
 jQuery(document).ready(function(){
