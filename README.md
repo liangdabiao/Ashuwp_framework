@@ -3,6 +3,9 @@
 
 Ashuwp_framework是由阿树工作室发布的一个wordpress后台框架。
 
+最新版本 3.0
+更新日期 2015.8.10
+
 使用本框架的要求：你需要具备基础的php语法知识，以及对wordpress主题有基本的了解。
 
 ##本框架的功能
@@ -27,6 +30,13 @@ Ashuwp_framework是由阿树工作室发布的一个wordpress后台框架。
 * 复选框 checkbox
 * 下拉框 select
 * 文本编辑器 tinyMCE
+* 相册 gallery
+
+##其它
+
+* 文章自定义字段支持选项卡样式
+* 设置页面支持选项卡样式
+* 分类字段不支持选项卡样式
 
 ##帮助支持
 

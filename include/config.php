@@ -2,7 +2,7 @@
 /**
 *Author: Ashuwp
 *Author url: http://www.ashuwp.com
-*Version: 2.2
+*Version: 3.0
 **/
 
 /*****Meta Box********/
@@ -41,6 +41,16 @@ $ashu_meta[] = array(
   'button_text' => 'Upload',
   'size' => 40,
   'type' => 'upload'
+);
+
+$ashu_meta[] = array(
+  'name' => 'Image gallery',
+  'id'   => '_id_gallery',
+  'desc' => 'Pleas upload images',
+  'std'  => '',
+  'button_text' => 'Add',
+  'size' => 40,
+  'type' => 'gallery'
 );
 
 $ashu_meta[] = array(
@@ -140,7 +150,37 @@ $ashu_meta[] = array(
 
 $new_box = new ashu_meta_box($ashu_meta, $meta_conf);
 
+/***tab**/
+$tab_meta = array();
+$tab_conf = array('title' => 'Tab Title', 'id'=>'tabbox', 'page'=>array('page','post'), 'context'=>'normal', 'priority'=>'low', 'callback'=>'', 'tab'=>true);
 
+$tab_meta[] = array(
+  'name' => 'Texearea Input',
+  'id'   => '_tab_textarea',
+  'desc' => 'description or notice',
+  'std'  => 'Default content',
+  'size' => array(60,5),
+  'type' => 'textarea'
+);
+$tab_meta[] = array(
+  'name'  => 'Tinymce Input',
+  'id'    => '_tab_tinymce',
+  'desc'  => 'Pleas add some content',
+  'std'   => 'Hello, world.',
+  'media' => 1,
+  'type'  => 'tinymce'
+);
+$tab_meta[] = array(
+  'name' => 'Image gallery',
+  'id'   => '_tab_gallery',
+  'desc' => 'Pleas upload images',
+  'std'  => '',
+  'button_text' => 'Add',
+  'size' => 40,
+  'type' => 'gallery'
+);
+
+$tab_box = new ashu_meta_box($tab_meta, $tab_conf);
 
 /*********Options************/
 $page_info = array(
@@ -154,7 +194,7 @@ $ashu_options = array();
 
 $ashu_options[] = array(
   'type' => 'open',
-  'desc' => 'hello world.',
+  'name' => 'hello world.',
   'id'   => '_id_open'
 );
 
@@ -191,6 +231,16 @@ $ashu_options[] = array(
   'size' => 40,
   'button_text' => 'Upload',
   'type' => 'upload'
+);
+
+$ashu_options[] = array(
+  'name' => 'Gallery',
+  'id'   => '_id_gallery',
+  'desc' => 'Pleas upload a images',
+  'std'  => '',
+  'size' => 40,
+  'button_text' => 'Upload',
+  'type' => 'gallery'
 );
 
 $ashu_options[] = array(
@@ -290,7 +340,7 @@ $ashu_options[] = array(
 
 $ashu_options[] = array(
   'type' => 'close',
-  'desc' => 'hello world.',
+  'name' => 'hello world.',
   'id'   => '_id_open'
 );
 $option_page = new ashu_option_class($ashu_options, $page_info);
@@ -308,7 +358,7 @@ $child_option = array();
 
 $child_option[] = array(
   'type' => 'open',
-  'desc' => 'hello world.',
+  'name' => 'hello world.',
   'id'   => '_id_open'
 );
 $child_option[] = array(
@@ -321,40 +371,94 @@ $child_option[] = array(
 );
 $child_option[] = array(
   'type' => 'close',
-  'desc' => 'hello world.',
+  'name' => 'hello world.',
   'id'   => '_id_open'
 );
 $child_page = new ashu_option_class($child_option, $child_info);
 
 /*********Other top page************/
-$top2_info = array(
+$tab_info = array(
   'full_name' => 'Top page',
   'optionname'=>'toppage',
   'child'=>false,
-  'filename' => 'toppage_slug'
+  'filename' => 'toppage_slug',
+  'tab'=>true
 );
 
-$top2_option = array();
-
-$top2_option[] = array(
-  'type' => 'open',
-  'desc' => 'hello world.',
-  'id'   => '_id_open'
+$tab_option = array();
+/*tab1*/
+$tab_option[] = array(
+  'name' => 'Tab1',
+  'id'   => 'option_tab1',
+  'type' => 'open'
 );
-$top2_option[] = array(
-  'name' => 'Input test',
-  'id'   => '_id_text',
+$tab_option[] = array(
+  'name' => 'Test input in tab1',
+  'id'   => '_tab1_text',
   'desc' => '',
   'std'  => 'hello word',
   'size' => 40, 
   'type' => 'text'
 );
-$top2_option[] = array(
-  'type' => 'close',
-  'desc' => 'hello world.',
-  'id'   => '_id_open'
+$tab_option[] = array(
+  'name' => 'Textarea in tab1',
+  'id'   => '_tab1_textarea',
+  'desc' => '',
+  'std'  => 'hello word',
+  'size' => 40, 
+  'type' => 'textarea'
 );
-$top2_page = new ashu_option_class($top2_option, $top2_info);
+$tab_option[] = array(
+  'type' => 'close',
+  'name' => 'hello world.'
+);
+/*tab2*/
+$tab_option[] = array(
+  'name' => 'Tab2',
+  'id'   => 'option_tab2',
+  'type' => 'open'
+);
+$tab_option[] = array(
+  'name' => 'Image Upload in tab2',
+  'id'   => '_tab2_upload',
+  'desc' => 'Pleas upload a image, Or fill the blank with image url',
+  'std'  => '',
+  'size' => 40,
+  'button_text' => 'Upload',
+  'type' => 'upload'
+);
+$tab_option[] = array(
+  'name' => 'Gallery in tab2',
+  'id'   => '_tab2_gallery',
+  'desc' => 'Pleas upload a images',
+  'std'  => '',
+  'size' => 40,
+  'button_text' => 'Upload',
+  'type' => 'gallery'
+);
+$tab_option[] = array(
+  'type' => 'close',
+  'name' => ''
+);
+/*tab3*/
+$tab_option[] = array(
+  'name' => 'Tab3',
+  'id'   => 'option_tab3',
+  'type' => 'open'
+);
+$tab_option[] = array(
+  'name'  => 'Tinymce Input in tab3',
+  'id'    => '_tab3_tinymce',
+  'desc'  => 'Pleas add some content',
+  'std'   => 'Hello, world.',
+  'media' => 1,
+  'type'  => 'tinymce'
+);
+$tab_option[] = array(
+  'type' => 'close',
+  'name' => ''
+);
+$tab_page = new ashu_option_class($tab_option, $tab_info);
 
 /****import-export*****/
 $import_info = array(
@@ -406,6 +510,17 @@ $ashu_feild[] = array(
   'edit_only'   => true,
   'size'        => 40,
   'type'        => 'upload'
+);
+
+$ashu_feild[] = array(
+  'name'        => 'Gallery',
+  'id'          => '_id_gallery',
+  'desc'        => 'Pleas upload a images',
+  'std'         => '',
+  'button_text' => 'Upload',
+  'edit_only'   => true,
+  'size'        => 40,
+  'type'        => 'gallery'
 );
 
 $ashu_feild[] = array(

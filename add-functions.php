@@ -2,7 +2,7 @@
 /**
 *Author: Ashuwp
 *Author url: http://www.ashuwp.com
-*Version: 2.2
+*Version: 3.0
 **/
 
 /**Add the cod into your functions.php**/

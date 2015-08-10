@@ -2,7 +2,7 @@
 /**
 *Author: Ashuwp
 *Author url: http://www.ashuwp.com
-*Version: 2.2
+*Version: 3.0
 **/
 
 class ashu_meta_box {
@@ -50,19 +50,41 @@ class ashu_meta_box {
   
   function new_meta_boxes(){
     global $post;
-    foreach($this->ashu_meta as $ashu_meta){
-      if( method_exists($this, $ashu_meta['type']) ) {
-        $meta_box_value = get_post_meta($post->ID, $ashu_meta['id'], true);
-      
-        if($meta_box_value != "")
-          $ashu_meta['std'] = $meta_box_value;
-
-        echo '<div class="ashu_metabox ashu_metabox_'.$ashu_meta['type'].' ashu_metabox_'.$this->meta_conf['context'].'">';
-        $this->$ashu_meta['type']($ashu_meta);
-        echo '</div>';
+    $active = 'active';
+    if( isset($this->meta_conf['tab']) && $this->meta_conf['tab'] ){
+      $this->tab_toggle($this->ashu_meta);
+      echo '<div class="tab-content">';
+      foreach($this->ashu_meta as $ashu_meta){
+        if( method_exists($this, $ashu_meta['type']) ) {
+          $meta_box_value = get_post_meta($post->ID, $ashu_meta['id'], true);
+        
+          if($meta_box_value != "")
+            $ashu_meta['std'] = $meta_box_value;
+          
+          
+          echo '<div id="tab_'.$ashu_meta['id'].'" class="tab-pane ashu_meta_'.$ashu_meta['type'].' '.$active.'">';
+          $this->$ashu_meta['type']($ashu_meta);
+          echo '</div>';
+        }
+        $active = '';
+      }
+      echo '</div>';
+    }else{
+      foreach($this->ashu_meta as $ashu_meta){
+        if( method_exists($this, $ashu_meta['type']) ) {
+          $meta_box_value = get_post_meta($post->ID, $ashu_meta['id'], true);
+        
+          if($meta_box_value != "")
+            $ashu_meta['std'] = $meta_box_value;
+          echo '<div class="ashu_meta ashu_meta_'.$ashu_meta['type'].'">';
+          $this->$ashu_meta['type']($ashu_meta);
+          echo '</div>';
+        }
       }
     }
+    
     wp_nonce_field( 'ashumetabox','ashu_meta_noce' );
+    
   }
   
   function save_postdata() {
@@ -89,7 +111,19 @@ class ashu_meta_box {
         }elseif( $ashu_meta['type'] == 'checkbox' ){
           $data =  $_POST[$ashu_meta['id']];
         }elseif( $ashu_meta['type'] == 'numbers_array' ){
-          $data = explode( ',', $_POST[$ashu_meta['id']] );
+          if($_POST[$ashu_meta['id']]!=''){
+            $data = explode( ',', $_POST[$ashu_meta['id']] );
+            $data = array_filter($data);
+          }else{
+            $data = '';
+          }
+        }elseif( $ashu_meta['type'] == 'gallery' ){
+          if($_POST[$ashu_meta['id']]!=''){
+            $data = explode( ',', $_POST[$ashu_meta['id']] );
+            $data = array_filter($data);
+          }else{
+            $data = '';
+          }
         }else{
           $data = htmlspecialchars($_POST[$ashu_meta['id']], ENT_QUOTES,"UTF-8");
         }
@@ -104,12 +138,27 @@ class ashu_meta_box {
     }
   }
   
+  function tab_toggle($ashu_meta){
+    if(!$ashu_meta)
+      return;
+    
+    $active = 'class="active"';
+    echo '<ul class="nav-tabs">';
+    foreach($this->ashu_meta as $ashu_meta){
+      echo '<li '.$active.'><a href="#tab_'.$ashu_meta['id'].'" data-toggle="tab">'.$ashu_meta['name'].'</a></li>';
+      $active = '';
+    }
+    echo '</ul>';
+  }
+  
   function title($ashu_meta) {
     echo '<h2>'.$ashu_meta['name'].'</h2>';
   }
   
   function text($ashu_meta) {
-    echo '<h3>'.$ashu_meta['name'].'</h3>';
+    if( !isset($this->meta_conf['tab']) || !$this->meta_conf['tab'] )
+      echo '<h3>'.$ashu_meta['name'].'</h3>';
+    
     if($ashu_meta['desc'] != "")
       echo '<p>'.$ashu_meta['desc'].'</p>';
       
@@ -117,7 +166,9 @@ class ashu_meta_box {
   }
   
   function textarea($ashu_meta) {
-    echo '<h3>'.$ashu_meta['name'].'</h3>';
+    if( !isset($this->meta_conf['tab']) || !$this->meta_conf['tab'] )
+      echo '<h3>'.$ashu_meta['name'].'</h3>';
+    
     if($ashu_meta['desc'] != "")
       echo '<p>'.$ashu_meta['desc'].'</p>';
     if(!isset($ashu_meta['size'])){
@@ -141,18 +192,42 @@ class ashu_meta_box {
       }
     }
     
+    if( !isset($this->meta_conf['tab']) || !$this->meta_conf['tab'] )
+      echo '<h3>'.$ashu_meta['name'].'</h3>';
     
-    
-    echo '<h3>'.$ashu_meta['name'].'</h3>';
     if($ashu_meta['desc'] != "")
       echo '<p>'.$ashu_meta['desc'].'</p>';
     echo '<div id="'.$ashu_meta['id'].'_div" class="ashu_file_view">'.$file_view .'</div>';
     echo '<input class="ashuwp_url_input" type="text" id="'.$ashu_meta['id'].'_input" size="'.$ashu_meta['size'].'" value="'.$ashu_meta['std'].'" name="'.$ashu_meta['id'].'"/><a href="#" id="'.$ashu_meta['id'].'" class="ashu_upload_button button">'.$button_text.'</a>';
   }
   
-  function radio( $ashu_meta ) {
+  function gallery($ashu_meta){
+    if( !isset($this->meta_conf['tab']) || !$this->meta_conf['tab'] )
+      echo '<h3>'.$ashu_meta['name'].'</h3>';
   
-    echo '<h3>'.$ashu_meta['name'].'</h3>';
+    $button_text = (isset($ashu_meta['button_text'])) ? $ashu_meta['button_text'] : 'Upload';
+    
+    if($ashu_meta['std'] != ''){
+      $image_ids = implode( ',', $ashu_meta['std'] );
+    }else{
+      $image_ids = '';
+    }
+    
+    echo '<div class="gallery_container"><ul class="gallery_view">';
+    if ( $ashu_meta['std'] )
+      foreach ( $ashu_meta['std'] as $attachment_id ) {
+        echo '<li class="image" data-attachment_id="' . $attachment_id . '">' . wp_get_attachment_image( $attachment_id, 'thumbnail' ) . '<ul class="actions"><li><a href="#" class="delete" title="Delete image">Delete</a></li></ul></li>';
+      }
+    echo '</ul><div class="clear"></div>';
+    echo '<input type="hidden" id="'.$ashu_meta['id'].'_input" class="gallery_input" name="'.$ashu_meta['id'].'" value="'.$image_ids.'" />';
+    echo '<a href="#" class="add_gallery button">'.$button_text.'</a>';
+    echo '</div>';
+  }
+  
+  function radio( $ashu_meta ) {
+    if( !isset($this->meta_conf['tab']) || !$this->meta_conf['tab'] )
+      echo '<h3>'.$ashu_meta['name'].'</h3>';
+  
     if($ashu_meta['desc'] != "")
       echo '<p>'.$ashu_meta['desc'].'</p>';
       
@@ -168,7 +243,9 @@ class ashu_meta_box {
   }
   
   function checkbox($ashu_meta) {
-    echo '<h3>'.$ashu_meta['name'].'</h3>';
+    if( !isset($this->meta_conf['tab']) || !$this->meta_conf['tab'] )
+      echo '<h3>'.$ashu_meta['name'].'</h3>';
+  
     if($ashu_meta['desc'] != "")
       echo '<p>'.$ashu_meta['desc'].'</p>';
       
@@ -186,7 +263,9 @@ class ashu_meta_box {
   }
   
   function dropdown($ashu_meta) {
-    echo '<h3>'.$ashu_meta['name'].'</h3>';
+    if( !isset($this->meta_conf['tab']) || !$this->meta_conf['tab'] )
+      echo '<h3>'.$ashu_meta['name'].'</h3>';
+    
     if($ashu_meta['desc'] != "")
       echo '<p>'.$ashu_meta['desc'].'</p>';
       
@@ -244,15 +323,21 @@ class ashu_meta_box {
   function numbers_array($ashu_meta){
     if($ashu_meta['std']!='')
       $nums = implode( ',', $ashu_meta['std'] );
+    else
+      $nums = '';
     
-    echo '<h3>'.$ashu_meta['name'].'</h3>';
+    if( !isset($this->meta_conf['tab']) || !$this->meta_conf['tab'] )
+      echo '<h3>'.$ashu_meta['name'].'</h3>';
+    
     if($ashu_meta['desc'] != "")
       echo '<p>'.$ashu_meta['desc'].'</p>';
     echo '<input type="text" size="'.$ashu_meta['size'].'" value="'.$nums.'" id="'.$ashu_meta['id'].'" name="'.$ashu_meta['id'].'"/>';
   }
   
   function tinymce($ashu_meta){
-    echo '<h3>'.$ashu_meta['name'].'</h3>';
+    if( !isset($this->meta_conf['tab']) || !$this->meta_conf['tab'] )
+      echo '<h3>'.$ashu_meta['name'].'</h3>';
+  
     if($ashu_meta['desc'] != "")
       echo '<p>'.$ashu_meta['desc'].'</p>';
       
