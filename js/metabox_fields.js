@@ -1,7 +1,7 @@
 /**
 *Author: Ashuwp
 *Author url: http://www.ashuwp.com
-*Version: 3.0
+*Version: 3.1
 **/
 jQuery(document).ready(function($){
   var upload_frame,

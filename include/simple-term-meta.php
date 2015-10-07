@@ -10,7 +10,7 @@ if ( is_admin() && 'themes.php' == $pagenow && isset( $_GET['activated'] ) ) {
 	simple_term_meta_install();
 }
 //register_activation_hook( __FILE__, 'simple_term_meta_install' );
-
+if (!function_exists('simple_term_meta_install')) {
 function simple_term_meta_install()
 {
 	// setup custom table
@@ -38,6 +38,7 @@ function simple_term_meta_install()
 	
 	update_option( "simple_term_meta_db_version", '0.9' );
 }
+}
 
 /**
  * define postmeta table in wpdb
@@ -45,17 +46,18 @@ function simple_term_meta_install()
 
 add_action( 'init', 'simple_post_meta_define_table' );
 
+if (!function_exists('simple_post_meta_define_table')) {
 function simple_post_meta_define_table() {
 	global $wpdb;
 	$wpdb->termmeta = $wpdb->prefix . 'termmeta';
 }
-
+}
 /**
  * delete term meta table and db version option upon uninstall
  */
  
 register_uninstall_hook( __FILE__, 'simple_term_meta_uninstall' );
-
+if (!function_exists('simple_term_meta_uninstall')) {
 function simple_term_meta_uninstall()
 {
 	global $wpdb;
@@ -65,6 +67,7 @@ function simple_term_meta_uninstall()
 	$wpdb->query("DROP TABLE IF EXISTS $table_name");
 	
 	delete_option( "simple_term_meta_db_version" );
+}
 }
 
 /**
@@ -77,8 +80,10 @@ function simple_term_meta_uninstall()
  * @param array $term_ids List of post IDs.
  * @return bool|array Returns false if there is nothing to update or an array of metadata.
  */
+if (!function_exists('update_termmeta_cache')) {
 function update_termmeta_cache($term_ids) {
 	return update_meta_cache('term', $term_ids);
+}
 }
 
 /**
@@ -90,8 +95,10 @@ function update_termmeta_cache($term_ids) {
  * @param bool $unique Optional, default is false. Whether the same key should not be added.
  * @return bool False for failure. True for success.
  */
+if (!function_exists('add_term_meta')) {
 function add_term_meta( $term_id, $meta_key, $meta_value, $unique = false ) {
 	return add_metadata('term', $term_id, $meta_key, $meta_value, $unique);
+}
 }
 
 /**
@@ -106,8 +113,10 @@ function add_term_meta( $term_id, $meta_key, $meta_value, $unique = false ) {
  * @param mixed $meta_value Optional. Metadata value.
  * @return bool False for failure. True for success.
  */
+if (!function_exists('delete_term_meta')) {
 function delete_term_meta( $term_id, $meta_key, $meta_value = '' ) {
 	return delete_metadata('term', $term_id, $meta_key, $meta_value);
+}
 }
 
 /**
@@ -119,10 +128,11 @@ function delete_term_meta( $term_id, $meta_key, $meta_value = '' ) {
  * @return mixed Will be an array if $single is false. Will be value of meta data field if $single
  *  is true.
  */
+if (!function_exists('get_term_meta')) {
 function get_term_meta( $term_id, $key, $single = false ) {
 	return get_metadata('term', $term_id, $key, $single);
 }
-
+}
 /**
  * Update term meta field based on term ID.
  *
@@ -137,16 +147,18 @@ function get_term_meta( $term_id, $key, $single = false ) {
  * @param mixed $prev_value Optional. Previous value to check before removing.
  * @return bool False on failure, true if success.
  */
+if (!function_exists('update_term_meta')) {
 function update_term_meta( $term_id, $meta_key, $meta_value, $prev_value = '' ) {
 	return update_metadata('term', $term_id, $meta_key, $meta_value, $prev_value);
 }
-
+}
 /**
  * Delete everything from term meta matching meta key.
  *
  * @param string $term_meta_key Key to search for when deleting.
  * @return bool Whether the term meta key was deleted from the database
  */
+if (!function_exists('delete_term_meta_by_key')) {
 function delete_term_meta_by_key($term_meta_key) {
 	if ( !$term_meta_key )
 		return false;
@@ -165,7 +177,7 @@ function delete_term_meta_by_key($term_meta_key) {
 	}
 	return false;
 }
-
+}
 /**
  * Retrieve term meta fields, based on term ID.
  *
@@ -176,6 +188,7 @@ function delete_term_meta_by_key($term_meta_key) {
  * @param int $term_id term ID
  * @return array
  */
+if (!function_exists('get_term_custom')) {
 function get_term_custom( $term_id ) {
 	$term_id = (int) $term_id;
 
@@ -184,7 +197,7 @@ function get_term_custom( $term_id ) {
 
 	return wp_cache_get($term_id, 'term_meta');
 }
-
+}
 /**
  * Retrieve meta field names for a term.
  *
@@ -193,6 +206,7 @@ function get_term_custom( $term_id ) {
  * @param int $term_id term ID
  * @return array|null Either array of the keys, or null if keys could not be retrieved.
  */
+if (!function_exists('get_term_custom_keys')) {
 function get_term_custom_keys( $term_id ) {
 	$custom = get_term_custom( $term_id );
 
@@ -202,7 +216,7 @@ function get_term_custom_keys( $term_id ) {
 	if ( $keys = array_keys($custom) )
 		return $keys;
 }
-
+}
 /**
  * Retrieve values for a custom term field.
  *
@@ -213,6 +227,7 @@ function get_term_custom_keys( $term_id ) {
  * @param int $term_id Term ID
  * @return array Meta field values.
  */
+if (!function_exists('get_term_custom_values')) {
 function get_term_custom_values( $key = '', $term_id ) {
 	if ( !$key )
 		return null;
@@ -220,5 +235,6 @@ function get_term_custom_values( $key = '', $term_id ) {
 	$custom = get_term_custom($term_id);
 
 	return isset($custom[$key]) ? $custom[$key] : null;
+}
 }
 ?>
