@@ -28,7 +28,7 @@ $ashu_meta[] = array(
   'name' => 'Password Input',
   'id'   => '_id_pass',
   'desc' => 'password',
-  'std'  => 'Default content',
+  'std'  => '',
   'size' => 40,
   'type' => 'password'
 );
@@ -227,7 +227,7 @@ $ashu_options[] = array(
   'name' => 'Password Input',
   'id'   => '_id_pass',
   'desc' => 'password',
-  'std'  => 'Default content',
+  'std'  => '',
   'size' => 40,
   'type' => 'password'
 );
@@ -513,7 +513,7 @@ $ashu_feild[] = array(
   'name'      => 'Password Input',
   'id'        => '_id_text',
   'desc'      => 'password',
-  'std'       => 'Default content',
+  'std'       => '',
   'edit_only' => false,
   'size'      => 40,
   "type"      => "password"
