@@ -172,7 +172,7 @@ class ashu_meta_box {
     if($ashu_meta['desc'] != "")
       echo '<p>'.$ashu_meta['desc'].'</p>';
       
-    echo '<p><input type="text" size="'.$ashu_meta['size'].'" value="'.$ashu_meta['std'].'" id="'.$ashu_meta['id'].'" name="'.$ashu_meta['id'].'"/></p>';
+    echo '<p><input type="password" size="'.$ashu_meta['size'].'" value="'.$ashu_meta['std'].'" id="'.$ashu_meta['id'].'" name="'.$ashu_meta['id'].'"/></p>';
   }
   
   function textarea($ashu_meta) {
