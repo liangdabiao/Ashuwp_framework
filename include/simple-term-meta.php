@@ -4,11 +4,6 @@
 /utf8
  * activation - setup table, store db version for future updates
  */
-global $pagenow;
-if ( is_admin() && 'themes.php' == $pagenow && isset( $_GET['activated'] ) ) {
-	global $wpdb;
-	simple_term_meta_install();
-}
 //register_activation_hook( __FILE__, 'simple_term_meta_install' );
 if (!function_exists('simple_term_meta_install')) {
 function simple_term_meta_install()
@@ -40,18 +35,21 @@ function simple_term_meta_install()
 }
 }
 
+global $pagenow;
+if ( is_admin() && 'themes.php' == $pagenow && isset( $_GET['activated'] ) ) {
+	global $wpdb;
+	simple_term_meta_install();
+}
 /**
  * define postmeta table in wpdb
  */
-
-add_action( 'init', 'simple_post_meta_define_table' );
-
 if (!function_exists('simple_post_meta_define_table')) {
 function simple_post_meta_define_table() {
 	global $wpdb;
 	$wpdb->termmeta = $wpdb->prefix . 'termmeta';
 }
 }
+add_action( 'init', 'simple_post_meta_define_table' );
 /**
  * delete term meta table and db version option upon uninstall
  */

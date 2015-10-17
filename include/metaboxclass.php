@@ -2,7 +2,7 @@
 /**
 *Author: Ashuwp
 *Author url: http://www.ashuwp.com
-*Version: 3.1
+*Version: 3.2
 **/
 
 class ashu_meta_box {
@@ -156,6 +156,16 @@ class ashu_meta_box {
   }
   
   function text($ashu_meta) {
+    if( !isset($this->meta_conf['tab']) || !$this->meta_conf['tab'] )
+      echo '<h3>'.$ashu_meta['name'].'</h3>';
+    
+    if($ashu_meta['desc'] != "")
+      echo '<p>'.$ashu_meta['desc'].'</p>';
+      
+    echo '<p><input type="text" size="'.$ashu_meta['size'].'" value="'.$ashu_meta['std'].'" id="'.$ashu_meta['id'].'" name="'.$ashu_meta['id'].'"/></p>';
+  }
+  
+  function password($ashu_meta) {
     if( !isset($this->meta_conf['tab']) || !$this->meta_conf['tab'] )
       echo '<h3>'.$ashu_meta['name'].'</h3>';
     

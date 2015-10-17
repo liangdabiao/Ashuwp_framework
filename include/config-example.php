@@ -2,7 +2,7 @@
 /**
 *Author: Ashuwp
 *Author url: http://www.ashuwp.com
-*Version: 3.1
+*Version: 3.2
 **/
 
 /*****Meta Box********/
@@ -22,6 +22,15 @@ $ashu_meta[] = array(
   'std'  => 'Default content',
   'size' => 40,
   'type' => 'text'
+);
+
+$ashu_meta[] = array(
+  'name' => 'Password Input',
+  'id'   => '_id_pass',
+  'desc' => 'password',
+  'std'  => 'Default content',
+  'size' => 40,
+  'type' => 'password'
 );
 
 $ashu_meta[] = array(
@@ -212,6 +221,15 @@ $ashu_options[] = array(
   'std'  => 'Default content',
   'size' => 40,
   'type' => 'text'
+);
+
+$ashu_options[] = array(
+  'name' => 'Password Input',
+  'id'   => '_id_pass',
+  'desc' => 'password',
+  'std'  => 'Default content',
+  'size' => 40,
+  'type' => 'password'
 );
 
 $ashu_options[] = array(
@@ -489,6 +507,16 @@ $ashu_feild[] = array(
   'edit_only' => false,
   'size'      => 40,
   "type"      => "text"
+);
+
+$ashu_feild[] = array(
+  'name'      => 'Password Input',
+  'id'        => '_id_text',
+  'desc'      => 'password',
+  'std'       => 'Default content',
+  'edit_only' => false,
+  'size'      => 40,
+  "type"      => "password"
 );
 
 $ashu_feild[] = array(
