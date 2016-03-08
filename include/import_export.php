@@ -2,10 +2,10 @@
 /**
 *Author: Ashuwp
 *Author url: http://www.ashuwp.com
-*Version: 3.2
+*Version: 4.1
 **/
 
-class ashu_option_import_class {
+class ashuwp_option_import_class {
   var $options;
   function __construct($options) {
     $this->options = $options;

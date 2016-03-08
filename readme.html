@@ -85,7 +85,7 @@ pre {
 <h1 id="logo">
  <a href="http://www.ashuwp.com">http://www.ashuwp.com</a>
 </h1>
-<h2 class="align-cenetr">版本3.2</h2>
+<h2 class="align-cenetr">版本4.1</h2>
 <p class="align-cenetr">阿树工作室出品-wordpress主题后台框架</p>
 <h1>简介</h1>
 <p>本框架由阿树工作室发布，众网友可自由使用，使用本框架需要一定的代码基础，所以使用之前请先确保已经具有适量的php语法知识以及对wordpress有一定的了解。<br />
@@ -154,6 +154,20 @@ pre {
 <ul>
 <li>修改了simple-term-meta代码的顺序，修复了3.1版本的报错问题</li>
 <li>增加了type=password的输入框</li>
+</ul>
+<p>4.0版本 2016.02.15</p>
+<ul>
+<li>注意：4.0版本类名、文件名、函数等经过大幅修改，与前面版本并不兼容</li>
+<li>1. 删除了simple-term-meta.php文件</li>
+<li>2. 增加ashuwp_framework_core.php文件，作为整个框架的核心类</li>
+<li>3. 文件名和类名统一</li>
+<li>4. 加强了容错能力</li>
+<li>5. 支持php7环境</li>
+</ul>
+<p>4.1版本 2016.03.08</p>
+<ul>
+<li>1. 修正了设置数据中含有单引号双引号会被添加反斜杠的问题。</li>
+<li>2. 设置数据支持html代码。注意：文章和分类字段可输入html代码，输出时请用htmlspecialchars_decode处理即可。</li>
 </ul>
 <h1>使用方法</h1>
 <p><a href="http://www.ashuwp.com/framework/down">查阅Ashuwp_framework帮助文档</a></p>

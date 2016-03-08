@@ -1,7 +1,7 @@
 /**
 *Author: Ashuwp
 *Author url: http://www.ashuwp.com
-*Version: 3.2
+*Version: 4.1
 **/
 jQuery(document).ready(function($){
   var upload_frame,
@@ -29,7 +29,7 @@ jQuery(document).ready(function($){
     
     upload_frame.on('select',function(){
       var attachment = upload_frame.state().get('selection').first().toJSON();
-      //$('#'+value_id+'_input').val(attachment.url).trigger('change');
+      //$('#'+value_id+'_upload').val(attachment.url).trigger('change');
       $('input[name='+value_id+']').val(attachment.url).trigger('change');
     });
     
@@ -37,22 +37,38 @@ jQuery(document).ready(function($){
     
   });
   
-  $('.ashuwp_url_input').each(function(){
-    $(this).on('change focus blur', function(){
-      $select = '#' + $(this).attr('name') + '_div';
+  $('.ashuwp_field_upload').on('change focus blur', function(){
+      $select = '#' + $(this).attr('name') + '_preview';
       $value = $(this).val();
       if($value){
         var index1=$value.lastIndexOf('.');
         var index2=$value.length;
         var file_type=$value.substring(index1,index2);
+        img_src = ashu_file_preview.img_base;
         if($.inArray(file_type,['.png','.jpg','.gif','.bmp'])!='-1'){
-          $file_view = '<img src ="'+$value+'" />';
+          img_src = $value;
+        }else if($.inArray(file_type,['.zip','.rar','.7z','.gz','.tar','.bz','.bz2'])!='-1'){
+          img_src += ashu_file_preview.img_path.archive;
+        }else if($.inArray(file_type,['.mp3','.wma','.wav','.mod','.ogg','.au'])!='-1'){
+          img_src += ashu_file_preview.img_path.audio;
+        }else if($.inArray(file_type,['.avi','.mov','.wmv','.mp4','.flv','.mkv'])!='-1'){
+          img_src += ashu_file_preview.img_path.video;
+        }else if($.inArray(file_type,['.swf'])!='-1'){
+          img_src += ashu_file_preview.img_path.interactive;
+        }else if($.inArray(file_type,['.php','.js','.css','.json','.html','.xml'])!='-1'){
+          img_src += ashu_file_preview.img_path.code;
+        }else if($.inArray(file_type,['.doc','.docx','.pdf','.wps'])!='-1'){
+          img_src += ashu_file_preview.img_path._document;
+        }else if($.inArray(file_type,['.xls','.xlsx','.csv','.et','.ett'])!='-1'){
+          img_src += ashu_file_preview.img_path.spreadsheet;
+        }else if($.inArray(file_type,['.txt','.rtf'])!='-1'){
+          img_src += ashu_file_preview.img_path._text;
         }else{
-          $file_view = '<img src ="'+ashu_file_view.file_png+'" />';
+          img_src += ashu_file_preview.img_path._default;
         }
+        $file_view = '<img src ="'+img_src+'" />';
         $($select).html('').append($file_view);
       }
-    });
   });
   
   $('.gallery_container').on('click', 'a.add_gallery', function(event){
@@ -135,6 +151,10 @@ jQuery(document).ready(function($){
       $(this).parent().find('.gallery_input').val( attachment_ids );
     }
   });
+  
+  $('.ashuwp_color_picker').wpColorPicker();
+  
+  
 });
 
 /* ========================================================================
