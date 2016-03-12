@@ -130,7 +130,7 @@ class ashuwp_framework_core {
         if( isset($values['desc']) && $values['desc']!='')
           echo '<p>'.$values['desc'].'</p>';
         
-        echo '<input type="text" value="'.htmlspecialchars($values['std']).'" class="ashuwp_field_input" id="'.$values['id'].'" name="'.$values['id'].'"/>';
+        echo '<input type="text" value="'.$values['std'].'" class="ashuwp_field_input" id="'.$values['id'].'" name="'.$values['id'].'"/>';
       
       echo '</div>';
     
@@ -322,7 +322,7 @@ class ashuwp_framework_core {
         if( isset($values['desc'])  && $values['desc']!='' )
           echo '<p>'.$values['desc'].'</p>';
         
-        echo '<textarea class="ashuwp_field_textarea" id="'.$values['id'].'" name="'.$values['id'].'">'.htmlspecialchars($values['std']).'</textarea>';
+        echo '<textarea class="ashuwp_field_textarea" id="'.$values['id'].'" name="'.$values['id'].'">'.$values['std'].'</textarea>';
         
       echo '</div>';
     
