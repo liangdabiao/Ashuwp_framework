@@ -3,7 +3,7 @@
 *Ashuwp_framework
 *Author: Ashuwp
 *Author url: http://www.ashuwp.com
-*Version: 4.1
+*Version: 4.2
 **/
 
 function ashuwp_get_option($option_name, $field, $default = ''){
@@ -32,9 +32,7 @@ class ashuwp_framework_core {
   );
  
   public function enqueue_css_js() {
-    if( !did_action( 'wp_enqueue_media' ) ){
-      wp_enqueue_media();
-    }
+    wp_enqueue_media();
     wp_enqueue_style('ashuwp_framework_css', get_template_directory_uri(). '/css/ashuwp_framework.css');
     wp_enqueue_style( 'wp-color-picker' );
     wp_enqueue_script( 'wp-color-picker' );

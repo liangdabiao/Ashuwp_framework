@@ -2,7 +2,7 @@
 /**
 *Author: Ashuwp
 *Author url: http://www.ashuwp.com
-*Version: 4.1
+*Version: 4.2
 **/
 
 class ashuwp_postmeta_feild extends ashuwp_framework_core {
@@ -15,11 +15,12 @@ class ashuwp_postmeta_feild extends ashuwp_framework_core {
 	
     add_action('admin_menu', array(&$this, 'init_boxes'));
     add_action('save_post', array(&$this, 'save_postdata'));
+    add_action( 'admin_enqueue_scripts', array(&$this, 'enqueue_css_js') );
   }
   
   public function init_boxes() {
     $this->create_meta_box();
-    add_action( 'admin_print_scripts', array(&$this, 'enqueue_css_js') );
+    
   }
   
   public function create_meta_box(){
