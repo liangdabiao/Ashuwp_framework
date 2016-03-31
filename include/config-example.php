@@ -211,6 +211,7 @@ $page_info = array(
   'full_name' => 'General Options',
   'optionname'=>'general',
   'child'=>false,
+  'capability'=>'manage_options',
   'filename' => 'generalpage'
 );
 
