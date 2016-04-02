@@ -2,7 +2,7 @@
 /**
 *Author: Ashuwp
 *Author url: http://www.ashuwp.com
-*Version: 4.2
+*Version: 4.3
 **/
 
 class ashuwp_postmeta_feild extends ashuwp_framework_core {
@@ -119,12 +119,17 @@ class ashuwp_postmeta_feild extends ashuwp_framework_core {
             $data = htmlspecialchars($_POST[$ashu_meta['id']], ENT_QUOTES,"UTF-8");
           }
           
-          if( !$old_data && $data )
+          if($data == "")
+            delete_post_meta($post_id , $ashu_meta['id'], $data);
+          else
+            update_post_meta($post_id , $ashu_meta['id'], $data);
+          /*if( !$old_data && $data )
             add_post_meta($post_id , $ashu_meta['id'], $data, true);
           elseif($data != $old_data)
             update_post_meta($post_id , $ashu_meta['id'], $data);
           elseif($data == "")
             delete_post_meta($post_id , $ashu_meta['id'], $data);
+          */
         }
       }
     }

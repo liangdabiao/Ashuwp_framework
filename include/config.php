@@ -184,7 +184,6 @@ $ashu_feild[] = array(
   'desc'      => 'description or notice',
   'std'       => 'Default content',
   'edit_only' => false,
-  'size'      => 40,
   "type"      => "text"
 );
 
@@ -195,7 +194,6 @@ $ashu_feild[] = array(
   'std'         => '',
   'button_text' => 'Upload',
   'edit_only'   => true,
-  'size'        => 40,
   'type'        => 'upload'
 );
 
