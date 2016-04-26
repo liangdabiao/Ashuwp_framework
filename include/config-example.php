@@ -2,7 +2,7 @@
 /**
 *Author: Ashuwp
 *Author url: http://www.ashuwp.com
-*Version: 4.2
+*Version: 4.4
 **/
 
 /**
@@ -51,7 +51,7 @@ $tab_meta[] = array(
   'id'      => '_id_radio',
   'desc'    => 'Please select your gender',
   'std'     => 'thirdness',
-  'buttons' => array(
+  'subtype' => array(
     'male'      => 'Male',
     'female'    => 'Female',
     'thirdness' => 'Third gender'
@@ -64,7 +64,7 @@ $tab_meta[] = array(
   'id'      => '_id_checkbox',
   'desc'    => 'Which fruits do you like?',
   'std'     => array('apple','orange'),
-  'buttons' => array(
+  'subtype' => array(
     'apple'  => 'Apple',
     'orange' => 'Orange',
     'banana' => 'Banana',
@@ -184,7 +184,6 @@ $ashu_feild[] = array(
   'desc'      => 'description or notice',
   'std'       => 'Default content',
   'edit_only' => false,
-  'size'      => 40,
   "type"      => "text"
 );
 
@@ -195,7 +194,6 @@ $ashu_feild[] = array(
   'std'         => '',
   'button_text' => 'Upload',
   'edit_only'   => true,
-  'size'        => 40,
   'type'        => 'upload'
 );
 
@@ -264,7 +262,7 @@ $child_option[] = array(
   'id'      => '_id_radio',
   'desc'    => 'Please select your gender',
   'std'     => 'thirdness',
-  'buttons' => array(
+  'subtype' => array(
     'male'      => 'Male',
     'female'    => 'Female',
     'thirdness' => 'Third gender'
@@ -277,7 +275,7 @@ $child_option[] = array(
   'id'      => '_id_checkbox',
   'desc'    => 'Which fruits do you like?',
   'std'     => array('apple','orange'),
-  'buttons' => array(
+  'subtype' => array(
     'apple'  => 'Apple',
     'orange' => 'Orange',
     'banana' => 'Banana',
@@ -285,6 +283,25 @@ $child_option[] = array(
   ),
   'type'    => 'checkbox'
 );
+
+
+$child_option[] = array(
+  'name'    => 'Checkbox for category',
+  'id'      => '_id_checkbox_category',
+  'desc'    => '',
+  'subtype' => 'category',
+  'type'    => 'checkbox'
+);
+
+$child_option[] = array(
+  'name'    => 'Checkbox for Page',
+  'id'      => '_id_checkbox_page',
+  'desc'    => '',
+  'subtype' => 'page',
+  'type'    => 'checkbox'
+);
+
+
 
 $child_option[] = array(
   'type' => 'close',
