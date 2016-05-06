@@ -60,7 +60,7 @@ class ashuwp_postmeta_feild extends ashuwp_framework_core {
     else
       $post_id = 0;
     
-    echo '<div class="tab-content clearfix">';
+    echo '<div class="tab-content ashuwp_feild_tabs clearfix">';
     $this->tab_toggle($this->ashu_meta);
     
     foreach($this->ashu_meta as $ashu_meta){
