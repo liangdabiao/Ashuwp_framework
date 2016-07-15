@@ -1,7 +1,7 @@
 /*！
 *Author: Ashuwp
 *Author url: http://www.ashuwp.com
-*Version: 4.4
+*Version: 4.5
 */
 *,
 *:before,
@@ -42,7 +42,9 @@ html {
 .ashuwp_field .ashuwp_field_area {
   padding-left:200px;
 }
-
+.ashuwp_field .ashuwp_field_area .button-primary {
+  margin-right:15px;
+}
 .ashuwp_field a.wp-color-result {
   -webkit-box-sizing: content-box;
   -moz-box-sizing: content-box;

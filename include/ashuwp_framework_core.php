@@ -3,18 +3,8 @@
 *Ashuwp_framework
 *Author: Ashuwp
 *Author url: http://www.ashuwp.com
-*Version: 4.4
+*Version: 4.5
 **/
-
-function ashuwp_get_option($option_name, $field, $default = ''){
-  $ashuwp_option = get_option($option_name);
-  if( isset( $ashuwp_option[$field] ) )
-    return $ashuwp_option[$field];
-  elseif( $default == '' )
-    return $default;
-  else
-    return false;
-}
 
 class ashuwp_framework_core {
   
@@ -29,7 +19,6 @@ class ashuwp_framework_core {
     '_text' => 'images/media/text.png',
     'video' => 'images/media/video.png'
   );
- 
   public function enqueue_css_js() {
     wp_enqueue_media();
     wp_enqueue_style('ashuwp_framework_css', get_template_directory_uri(). '/css/ashuwp_framework.css');
@@ -37,22 +26,22 @@ class ashuwp_framework_core {
     wp_enqueue_script( 'wp-color-picker' );
     wp_enqueue_script( 'jquery-ui-tabs' );
     wp_enqueue_script('ashuwp_framework_js', get_template_directory_uri(). '/js/ashuwp_framework.js','','',true);
-
     wp_localize_script( 'ashuwp_framework_js', 'ashu_file_preview', array('img_base'=>includes_url(),'img_path'=>$this->file_png,'ajaxurl' => admin_url( 'admin-ajax.php' )));
   }
   
-  public function ashuwp_get_pages_by_level($args, $space = ''){
+  public function ashuwp_get_posts_by_level($args, $space = ''){
     $pages = array();
-    $top_pages = get_pages($args);
+    $args['posts_per_page'] = 999;
+    $top_pages = get_posts($args);
     
     if(!empty($top_pages)){
       foreach($top_pages as $page){
         
         $pages[$page->ID] = $page->post_title;
         
-        $args['parent'] = $page->ID;
+        $args['post_parent'] = $page->ID;
 
-        $child_pages = $this->ashuwp_get_pages_by_level( $args );
+        $child_pages = $this->ashuwp_get_posts_by_level( $args );
         foreach($child_pages as $key=>$title){
           $pages[$key] = $space . $title;
         }
@@ -131,15 +120,30 @@ class ashuwp_framework_core {
     echo '</div>';
   }
   
+  function before_tags($values){
+    $class = array('ashuwp_field');
+    $class[] = 'ashuwp_'.$values['type'].'_field';
+    if( !empty($values['class']) ){
+      $class[] = $values['class'];
+    }
+    $name = '';
+    if( !empty($values['name']) ){
+      $name = $values['name'];
+    }
+    if($values['type']=='title'){
+      $values['id'] = '';
+    }
+    echo '<div class="'.implode(' ', $class).'">';
+      if( !empty($name) )
+        echo '<label class="ashuwp_field_label" for="'.$values['id'].'">'.$name.'</label>';
+  }
+
   /**title**/
   public function title($values) {
     
-    echo '<div class="ashuwp_field">';
-    
-      if( isset($values['name']) )
-        echo '<label class="ashuwp_field_label ashuwp_title_field">'.$values['name'].'</label>';
+    $this->before_tags($values);
       
-      if( isset($values['desc']) )
+      if( !empty($values['desc']) )
         echo '<div class="ashuwp_field_area"><p>'.$values['desc'].'</p></div>';
       
     echo '</div>';
@@ -153,24 +157,15 @@ class ashuwp_framework_core {
     if( !isset($values['std']) )
       $values['std'] = '';
     
-    if( !isset($values['class']) )
-      $values['class'] = '';
-    
-    echo '<div class="ashuwp_field ashuwp_text_field '.$values['class'].'">';
-    
-      echo '<label class="ashuwp_field_label" for="'.$values['id'].'">';
-    
-      if( isset($values['name']) )
-        echo $values['name'];
-    
-      echo '</label>';
+    $this->before_tags($values);
 
       echo '<div class="ashuwp_field_area">';
 
         echo '<input type="text" value="'.$values['std'].'" class="ashuwp_field_input" id="'.$values['id'].'" name="'.$values['id'].'"/>';
         
-        if( isset($values['desc']) && $values['desc']!='')
+        if( !empty($values['desc']) ){
           echo '<p>'.$values['desc'].'</p>';
+        }
       
       echo '</div>';
     
@@ -185,24 +180,15 @@ class ashuwp_framework_core {
     if( !isset($values['std']) )
       $values['std'] = '';
     
-    if( !isset($values['class']) )
-     $values['class'] = '';
-    
-    echo '<div class="ashuwp_field ashuwp_password_field '.$values['class'].'">';
-    
-      echo '<label class="ashuwp_field_label" for="'.$values['id'].'">';
-    
-      if( isset($values['name']) )
-        echo $values['name'];
-    
-      echo '</label>';
+    $this->before_tags($values);
 
       echo '<div class="ashuwp_field_area">';
       
         echo '<input type="password" value="'.$values['std'].'" class="ashuwp_field_input" id="'.$values['id'].'" name="'.$values['id'].'"/>';
         
-        if( isset($values['desc'])  && $values['desc']!='' )
+        if( !empty($values['desc']) ){
           echo '<p>'.$values['desc'].'</p>';
+        }
       
       echo '</div>';
     
@@ -219,12 +205,7 @@ class ashuwp_framework_core {
     else
       $nums = '';
     
-    if( !isset($values['class']) )
-      $values['class'] = '';
-    
-    echo '<div class="ashuwp_field ashuwp_numbers_array_field '.$values['class'].'">';
-    
-      echo '<label class="ashuwp_field_label" for="'.$values['id'].'">';
+    $this->before_tags($values);
     
       if( isset($values['name']) )
         echo $values['name'];
@@ -235,8 +216,9 @@ class ashuwp_framework_core {
       
         echo '<input type="text" value="'.$nums.'" class="ashuwp_field_input" id="'.$values['id'].'" name="'.$values['id'].'"/>';
         
-        if( isset($values['desc'])  && $values['desc']!='' )
+        if( !empty($values['desc']) ){
           echo '<p>'.$values['desc'].'</p>';
+        }
       
       echo '</div>';
     
@@ -251,22 +233,13 @@ class ashuwp_framework_core {
     if( !isset($values['std']) )
       $values['std'] = '';
     
-    if( !isset($values['class']) )
-      $values['class'] = '';
-    
-    echo '<div class="ashuwp_field ashuwp_color_field'.$values['class'].'">';
-    
-      echo '<label class="ashuwp_field_label" for="'.$values['id'].'">';
-    
-      if( isset($values['name']) )
-        echo $values['name'];
-    
-      echo '</label>';
+    $this->before_tags($values);
 
       echo '<div class="ashuwp_field_area">';
         
-        if( isset($values['desc'])  && $values['desc']!='' )
+        if( !empty($values['desc']) ){
           echo '<p>'.$values['desc'].'</p>';
+        }
       
         echo '<input type="text" value="'.$values['std'].'" class="ashuwp_color_picker ashuwp_field_input" id="'.$values['id'].'" name="'.$values['id'].'"/>';
       
@@ -283,31 +256,26 @@ class ashuwp_framework_core {
     if( !isset($values['std']) )
       $values['std'] = '';
     
-    if( !isset($values['class']) )
-      $values['class'] = '';
-    
-    echo '<div class="ashuwp_field ashuwp_radio_field '.$values['class'].'">';
-    
-      echo '<div class="ashuwp_field_label">';
-    
-      if( isset($values['name']) )
-        echo $values['name'];
-    
-      echo '</div>';
+    $this->before_tags($values);
 
       echo '<div class="ashuwp_field_area">';
         
-        if( empty($values['subtype']))
+        if( empty($values['subtype'])){
           $values['subtype'] = '';
+        }
         
         $taxonomies_names = get_taxonomies( array("show_ui" => true, "_builtin" => false), 'names' );
         $taxonomies_names[] = 'category';
         $taxonomies_names[] = 'post_tag';
         $taxonomies_names[] = 'nav_menu';
         
-        if($values['subtype'] == 'page') {
+        $post_types = get_post_types( array( 'public'   => true, '_builtin' => false), 'names' );
+        $post_types[] = 'post';
+        $post_types[] = 'page';
+        
+        if( in_array($values['subtype'], $post_types) ) {
           $select = 'Select page';
-          $entries = $this->ashuwp_get_pages_by_level(array('parent'=>0),'');
+          $entries = $this->ashuwp_get_posts_by_level(array('post_type'=>$values['subtype'],'post_parent'=>0),'');
         }elseif($values['subtype'] == 'sidebar'){
           global $wp_registered_sidebars;
           $select = 'Select a special sidebar';
@@ -345,8 +313,9 @@ class ashuwp_framework_core {
           echo '<label for="'.$values['id'].'_'.$id.'"><input '.$checked.' type="radio" class="ashuwp_field_radio" value="'.$id.'" id="'.$values['id'].'_'.$id.'" name="'.$values['id'].'"/>'.$title.'</label>';
         }
         
-        if( isset($values['desc'])  && $values['desc']!='' )
+        if( !empty($values['desc']) ){
           echo '<p>'.$values['desc'].'</p>';
+        }
         
       echo '</div>';
     
@@ -355,23 +324,14 @@ class ashuwp_framework_core {
   
   /*input type=checkbox*/
   public function checkbox($values) {
+    
     if( !isset($values['id']) )
       return;
     
     if( !isset($values['std']) || !is_array($values['std']) )
       $values['std'] = array();
     
-    if( !isset($values['class']) )
-      $values['class'] = '';
-    
-    echo '<div class="ashuwp_field ashuwp_checkbox_field '.$values['class'].'">';
-    
-      echo '<div class="ashuwp_field_label">';
-    
-      if( isset($values['name']) )
-        echo $values['name'];
-    
-      echo '</div>';
+    $this->before_tags($values);
       
       echo '<div class="ashuwp_field_area">';
         
@@ -382,10 +342,14 @@ class ashuwp_framework_core {
         $taxonomies_names[] = 'category';
         $taxonomies_names[] = 'post_tag';
         $taxonomies_names[] = 'nav_menu';
+        
+        $post_types = get_post_types( array( 'public'   => true, '_builtin' => false), 'names' );
+        $post_types[] = 'post';
+        $post_types[] = 'page';
     
-        if($values['subtype'] == 'page') {
+        if( in_array($values['subtype'], $post_types) ) {
           $select = 'Select page';
-          $entries = $this->ashuwp_get_pages_by_level(array('parent'=>0),'');
+          $entries = $this->ashuwp_get_posts_by_level(array('post_type'=>$values['subtype'],'post_parent'=>0),'');
         }elseif($values['subtype'] == 'sidebar'){
           global $wp_registered_sidebars;
           $select = 'Select a special sidebar';
@@ -424,8 +388,9 @@ class ashuwp_framework_core {
           echo '<label for="'.$values['id'].'_'.$id.'"><input '.$checked.' type="checkbox" class="ashuwp_field_checkbox" value="'.$id.'" id="'.$values['id'].'_'.$id.'" name="'.$values['id'].'[]"/>'.$title.'</label>';
         }
         
-        if( isset($values['desc'])  && $values['desc']!='' )
+        if( !empty($values['desc']) ){
           echo '<p>'.$values['desc'].'</p>';
+        }
         
       echo '</div>';
       
@@ -440,22 +405,13 @@ class ashuwp_framework_core {
     if( !isset($values['std']) )
       $values['std'] = '';
     
-    if( !isset($values['class']) )
-      $values['class'] = '';
-    
-    echo '<div class="ashuwp_field ashuwp_textarea_field '.$values['class'].'">';
-    
-      echo '<label class="ashuwp_field_label" for="'.$values['id'].'">';
-    
-      if( isset($values['name']) )
-        echo $values['name'];
-    
-      echo '</label>';
+    $this->before_tags($values);
 
       echo '<div class="ashuwp_field_area">';
     
-        if( isset($values['desc'])  && $values['desc']!='' )
+        if( !empty($values['desc']) ){
           echo '<p>'.$values['desc'].'</p>';
+        }
         
         echo '<textarea class="ashuwp_field_textarea" id="'.$values['id'].'" name="'.$values['id'].'">'.$values['std'].'</textarea>';
         
@@ -480,9 +436,13 @@ class ashuwp_framework_core {
     $taxonomies_names[] = 'post_tag';
     $taxonomies_names[] = 'nav_menu';
     
-    if($values['subtype'] == 'page') {
-      $select = 'Select page';
-      $entries = $this->ashuwp_get_pages_by_level(array('parent'=>0),'&nbsp;&nbsp;');
+    $post_types = get_post_types( array( 'public'   => true, '_builtin' => false), 'names' );
+    $post_types[] = 'post';
+    $post_types[] = 'page';
+    
+    if( in_array($values['subtype'], $post_types) ) {
+          $select = 'Select page';
+          $entries = $this->ashuwp_get_posts_by_level(array('post_type'=>$values['subtype'],'post_parent'=>0),'');
     }elseif($values['subtype'] == 'sidebar'){
       global $wp_registered_sidebars;
       $select = 'Select a special sidebar';
@@ -504,23 +464,10 @@ class ashuwp_framework_core {
       $entries = $values['subtype'];
     }
     
-    if( !isset($values['class']) )
-      $values['class'] = '';
-    
-    echo '<div class="ashuwp_field ashuwp_select_field '.$values['class'].'">';
-    
-      echo '<label class="ashuwp_field_label">';
-    
-      if( isset($values['name']) )
-        echo $values['name'];
-    
-      echo '</label>';
+    $this->before_tags($values);
       
       echo '<div class="ashuwp_field_area">';
       
-        if( isset($values['desc'])  && $values['desc']!='' )
-          echo '<p>'.$values['desc'].'</p>';
-        
         echo '<select class="ashuwp_field_textarea" id="'. $values['id'] .'" name="'. $values['id'] .'"> ';
         
           echo '<option value="">'.$select .'</option>';
@@ -543,6 +490,10 @@ class ashuwp_framework_core {
             echo '<option '.$selected.' value="'. $id.'">'. $title.'</option>';
           }
         echo '</select>';
+        
+        if( !empty($values['desc']) ){
+          echo '<p>'.$values['desc'].'</p>';
+        }
         
       echo '</div>';
       
@@ -586,17 +537,7 @@ class ashuwp_framework_core {
       }
     }
     
-    if( !isset($values['class']) )
-      $values['class'] = '';
-    
-    echo '<div class="ashuwp_field ashuwp_upload_field '.$values['class'].'">';
-    
-      echo '<label class="ashuwp_field_label">';
-    
-      if( isset($values['name']) )
-        echo $values['name'];
-    
-      echo '</label>';
+    $this->before_tags($values);
 
       echo '<div class="ashuwp_field_area">';
       
@@ -604,8 +545,9 @@ class ashuwp_framework_core {
         
         echo '<input type="text" class="ashuwp_field_upload" value="'.$values['std'].'" name="'.$values['id'].'" id="'.$values['id'].'_upload"/><a id="'.$values['id'].'" class="ashu_upload_button button" href="#">'.$button_text.'</a>';
         
-        if( isset($values['desc'])  && $values['desc']!='' )
+        if( !empty($values['desc']) ){
           echo '<p>'.$values['desc'].'</p>';
+        }
         
       echo '</div>';
     
@@ -622,27 +564,15 @@ class ashuwp_framework_core {
     else
       $image_ids = '';
     
-    if( !isset($values['class']) )
-      $values['class'] = '';
-    
     $button_text = (isset($values['button_text'])) ? $values['button_text'] : 'Upload';
     
-    echo '<div class="ashuwp_field ashuwp_gallery_field '.$values['class'].'">';
-    
-      echo '<label class="ashuwp_field_label">';
-    
-      if( isset($values['name']) )
-        echo $values['name'];
-    
-      echo '</label>';
+    $this->before_tags($values);
       
-      if( !isset($values['class']) )
-        $values['class'] = '';
-      
-      echo '<div class="ashuwp_field_area '.$values['class'].'">';
+      echo '<div class="ashuwp_field_area">';
         
-        if( isset($values['desc'])  && $values['desc']!='' )
+        if( !empty($values['desc']) ){
           echo '<p>'.$values['desc'].'</p>';
+        }
         
          echo '<div class="gallery_container"><ul class="gallery_view">';
          
@@ -672,22 +602,13 @@ class ashuwp_framework_core {
     if( !isset($values['std']) )
       $values['std'] = '';
     
-    if( !isset($values['class']) )
-      $values['class'] = '';
-      
-	  echo '<div class="ashuwp_field ashuwp_tinymce_field '.$values['class'].'">';
-    
-      echo '<label class="ashuwp_field_label">';
-    
-      if( isset($values['name']) )
-        echo $values['name'];
-    
-      echo '</label>';
+    $this->before_tags($values);
 
       echo '<div class="ashuwp_field_area">';
     
-        if( isset($values['desc'])  && $values['desc']!='' )
+        if( !empty($values['desc']) ){
           echo '<p>'.$values['desc'].'</p>';
+        }
         
         $settings = array('tinymce'=>1);
         
